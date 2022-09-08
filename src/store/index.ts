@@ -1,6 +1,10 @@
 import { createStore } from 'vuex'
-
-export default createStore({
+import works from '@/store/modules/works'
+import blogs from '@/store/modules/blogs'
+interface RootState {
+  [key: string]: any
+}
+export default createStore<RootState>({
   state: {
   },
   getters: {
@@ -10,5 +14,7 @@ export default createStore({
   actions: {
   },
   modules: {
+    works,
+    blogs
   }
 })

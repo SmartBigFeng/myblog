@@ -1,0 +1,18 @@
+[
+  {
+    "path": "/mysetting",
+    "title": "我的信息"
+  },
+  {
+    "path": "/opussetting",
+    "title": "作品管理"
+  },
+  {
+    "path": "/myblogs",
+    "title": "Blog管理"
+  },
+  {
+    "path": "/addblog",
+    "title": "发布Blog"
+  }
+]

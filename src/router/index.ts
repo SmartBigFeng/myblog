@@ -1,19 +1,70 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import store from '@/store';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'index',
+    component: () => import('@/views/Index/Index.vue')
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/indexblogs',
+    name: 'indexblogs',
+    component: () => import('@/views/Blogs/Blogs.vue')
+  },
+  {
+    path: '/blogdetails',
+    name: 'blogdetails',
+    component: () => import('@/views/Blogs/BlogDetails.vue'),
+    children: [
+      {
+        path: '/blogdetails/:id',
+        component: () => import('@/views/Blogs/BlogDetails.vue')
+      }
+    ]
+  },
+  {
+    path: '/indexworks',
+    name: 'myworks',
+    component: () => import('@/views/Projects/Projects.vue')
+  },
+  {
+    path: '/aboutme',
+    name: 'aboutme',
+    component: () => import('@/views/AboutMe/AboutMe.vue')
+  },
+  {
+    path: '/prelogin',
+    name: 'PreLogin',
+    component: () => import('@/views/PreLogin/PreLogin.vue')
+  },
+  {
+    path: '/personal',
+    name: 'personal',
+    redirect: '/opussetting',
+    component: () => import('@/views/PerSetting/Index.vue'),
+    children: [
+      {
+        path: '/mysetting',
+        name: 'mysetting',
+        component: () => import('@/views/PerSetting/MySetting/MySetting.vue')
+      },
+      {
+        path: '/opussetting',
+        name: 'opussetting',
+        component: () => import('@/views/PerSetting/OpusSetting/OpusSetting.vue')
+      },
+      {
+        path: '/myblogs',
+        name: 'blogsetting',
+        component: () => import('@/views/PerSetting/MyBlogs/MyBlogs.vue')
+      },
+      {
+        path: '/addblog',
+        name: 'addblog',
+        component: () => import('@/views/PerSetting/AddBlog/AddBlog.vue')
+      }
+    ]
   }
 ]
 
@@ -21,5 +72,20 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-
+router.beforeEach(async (to, from, next) => {
+  if (document.cookie == '' && (to.path == '/personal' || to.path == '/mysetting' || to.path == '/opussetting' || to.path == '/myblogs' || to.path == '/addblog')) {
+    router.push('/prelogin');
+  }
+  if (to.path == '/') {
+    if (store.state.blogs.allBlogs.length == 0) {
+      await store.dispatch('blogs/getAllBlogs', {
+        type: 'all'
+      })
+    }
+    if (store.state.works.infos.length == 0) {
+      await store.dispatch('works/renewinfo');
+    }
+  }
+  next();
+})
 export default router
