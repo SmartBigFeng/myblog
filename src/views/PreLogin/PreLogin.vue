@@ -2,13 +2,16 @@
   <main>
     <nav-head></nav-head>
     <el-form class="demo-form-inline">
-      <el-form-item label="请输入验证码" style="width:300px">
-        <el-input v-model="nowcode" placeholder="请输入验证码" />
+      <el-form-item
+        label="请输入验证码"
+        style="width:300px"
+      >
+        <el-input v-model="nowcode" placeholder="请输入验证码" clearable  />
       </el-form-item>
       <el-form-item style="width:300px">
         <div class="btncontainer">
           <el-button type="primary" plain @click="onSubmit" :loading="loading">申请验证码</el-button>
-          <el-button type="warning" @click="toCheck">登陆后台</el-button>
+          <el-button type="warning" @click="toCheck" :disabled="!nowcode">登陆后台</el-button>
         </div>
       </el-form-item>
     </el-form>

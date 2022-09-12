@@ -138,7 +138,7 @@ p.title {
     background: url("@/assets/IndexBgImg/end.jpg");
     background-attachment: fixed;
     z-index: -1;
-    opacity: 0.2;
+    opacity: 0.6;
   }
   .ToFooter {
     display: block;
@@ -238,7 +238,6 @@ section {
     cursor: pointer;
     transition: all 0.5s;
     cursor: pointer;
-    backdrop-filter: blur(5px);
     &:hover {
       transform: scale(1.03);
     }

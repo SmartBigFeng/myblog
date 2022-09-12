@@ -80,6 +80,13 @@ body[scroll]::-webkit-scrollbar-thumb {
 .passagep {
   font-size: 24px;
 }
+a {
+  display: block;
+  text-decoration: none;
+}
+ul {
+  list-style-type: none;
+}
 </style>
 <style lang="scss" scoped>
 .scollTop {

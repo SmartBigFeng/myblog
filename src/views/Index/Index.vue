@@ -3,7 +3,7 @@
     <banner-view ></banner-view>
     <gallery-view></gallery-view>
     <index-blog></index-blog>
-    <footer-com></footer-com>
+    <FooterCom></FooterCom>
 </template>
 
 <script setup lang="ts">

@@ -43,14 +43,14 @@ let router = useRouter();
 let innerHeight = ref("650px");
 let visiableTag = ref(false);
 let workImg = [
-  { title: "Web开发", url: require("../assets/indexworks/Web开发.jpg") },
+  { title: "Web开发", url: require("../assets/indexproject/Web开发.jpg") },
   {
     title: "多屏多端开发",
-    url: require("../assets/indexworks/多屏多端开发.jpg")
+    url: require("../assets/indexproject/多屏多端开发.jpg")
   },
   {
     title: "数据可视化",
-    url: require("../assets/indexworks/数据可视化.jpg")
+    url: require("../assets/indexproject/数据可视化.jpg")
   }
 ];
 
@@ -62,7 +62,7 @@ onMounted(() => {
 
 let clickToWorks = async (title = "") => {
   await store.dispatch("works/renewtitle", title);
-  router.push("/indexworks");
+  router.push("/indexproject");
 };
 const scrollToBlogs = () => {
   const docEle = document.documentElement;
@@ -123,7 +123,7 @@ const scrollToBlogs = () => {
 .gallery {
   width: 1200px;
   margin: 0 auto;
-  display: content-box;
+  box-sizing: border-box;
   position: relative;
   min-height: 800px;
   height: calc(100vh - 80px);

@@ -2,6 +2,7 @@
   <header class="bg-black">
     <nav class="nav-container">
       <img class="logo-white" src="@/assets/Head/NavLogo.png" />
+      <span class="routerimg" @click="router.push('/')"></span>
       <el-menu class="router-list">
         <el-menu-item class="item-white" style="padding:0;">
           <span class="iconcontainer" @click="router.push('/')">
@@ -12,7 +13,7 @@
           </span>
         </el-menu-item>
         <el-menu-item class="item-white" style="padding:0;">
-          <span class="iconcontainer" @click="router.push('/indexworks')">
+          <span class="iconcontainer" @click="router.push('/indexproject')">
             <el-icon>
               <Grid />
             </el-icon>
@@ -119,7 +120,15 @@ header {
       height: 57px;
       object-fit: contain;
     }
-
+    span.routerimg{
+      display: block;
+      width:220px;
+      height:80px;      
+      position: absolute;
+      left:208px;
+      top:0;
+      cursor: pointer;
+    }
     .router-list {
       width: 600px;
       $bgcolor: rgba(0, 0, 0, 0);
@@ -159,13 +168,10 @@ header {
         }
         span.iconcontainer .el-icon {
           transition: font-size 0.5s;
+          animation: colorChange 1s forwards 0.1s;
         }
         &:hover .iconcontainer {
           animation: colorChange 1s forwards 0.1s;
-          font-size: 24px;
-          .el-icon {
-            font-size: 24px;
-          }
         }
       }
     }
