@@ -41,6 +41,7 @@ defineComponent({
 let allBlogs = ref([]);
 
 onBeforeMount(async () => {
+  document.documentElement.scrollTop = 0;
   if (store.state.blogs.allBlogs.length == 0) {
     store.dispatch("blogs/getAllBlogs");
   }

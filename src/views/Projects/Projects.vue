@@ -4,7 +4,7 @@
     <div id="container">
       <el-container>
         <asideMenu @renewTitle="renewTitle" :nowtitle="nowtitle"></asideMenu>
-        <el-main>
+        <el-main v-loading="vLoadingTag">
           <h2>{{ nowtitle }}</h2>
           <template v-if="nowinfos.length">
             <section class="cards-container">
@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import store from "@/store";
-import { defineComponent, ref, watch, onMounted, reactive } from "vue";
+import { defineComponent, ref, watch, onMounted, reactive ,onBeforeMount} from "vue";
 import NavHead from "@/components/NavHead.vue";
 import asideMenu from "./components/asideMenu.vue";
 import FooterCom from "@/components/FooterCom.vue";
@@ -64,22 +64,32 @@ let nowimgs = ref([]);
 let nowinfos = ref([]);
 let nowdata = ref({});
 let nowtitle = ref("");
-const renewTitle = newval => {
-  console.log(newval)
-  nowtitle.value = newval;
-  nowinfos.value = [];
-  store.dispatch("works/list", { title: nowtitle.value }).then(res => {
-    if (Object.keys(res).length > 0) {
-      nowdata.value = res.data;
-      for (let item in nowdata.value.infos) {
-        nowinfos.value.push({
-          projname: nowdata.value.infos[item].projname,
-          url: nowdata.value.infos[item].worksurl[0]
-        });
+let vLoadingTag = ref(false);
+const renewTitle = (newval: string) => {
+  vLoadingTag.value = true;
+  try {
+    nowtitle.value = newval;
+    nowinfos.value = [];
+    store.dispatch("works/list", { title: nowtitle.value }).then(res => {
+      if (Object.keys(res).length > 0) {
+        nowdata.value = res.data;
+        for (let item in nowdata.value.infos) {
+          nowinfos.value.push({
+            projname: nowdata.value.infos[item].projname,
+            url: nowdata.value.infos[item].worksurl[0]
+          });
+        }
       }
-    }
-  });
+    });
+    vLoadingTag.value = false;
+  } catch {
+    vLoadingTag.value = false;
+    return;
+  }
 };
+onBeforeMount(() => {
+  document.documentElement.scrollTop = 0;
+});
 onMounted(async () => {
   innerHeight.value = document.documentElement.clientHeight * 0.86 + "px";
   document.documentElement.scrollTop = 0;

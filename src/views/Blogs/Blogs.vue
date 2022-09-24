@@ -83,7 +83,7 @@ import {
   onBeforeMount,
   defineAsyncComponent,
   onMounted,
-  watch,
+  watch
 } from "vue";
 import NavHead from "@/components/NavHead.vue";
 import FooterCom from "@/components/FooterCom.vue";
@@ -104,13 +104,13 @@ let condition = ref({
   compos: "",
 });
 onBeforeMount(async () => {
+  document.documentElement.scrollTop = 0;
   if (store.state.blogs.allBlogs.length == 0) {
     await store.dispatch("blogs/getAllBlogs", {});
   }
   allBlogs.value = store.state.blogs.allBlogs.slice(0, 9);
 });
 onMounted(() => {
-  document.documentElement.scrollTop = "0";
   let nowyear = new Date().getFullYear();
   for (let startyear = 2022; startyear <= nowyear; startyear++) {
     optionYears.value.push({

@@ -27,27 +27,28 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, onMounted, ref, reactive } from "vue";
+import { defineComponent, onMounted, ref, reactive, onBeforeMount } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import NavHead from "@/components/NavHead.vue";
 import FooterCom from "@/components/FooterCom.vue";
 import http from "@/utils/http";
 defineComponent({
-  name: "BlogDetails",
+  name: "BlogDetails"
 });
 let data = ref("");
 let router = useRouter();
 let route = useRoute();
 let nowblog = ref({});
+onBeforeMount(() => {
+  document.documentElement.scrollTop = 0;
+});
 // 生命周期钩子函数
 onMounted(() => {
-  document.documentElement.scrollTop = 0;
-  // route.params.id
   http
     .post("/blogs/getOne", {
-      _id: route.params.id,
+      _id: route.params.id
     })
-    .then(async (res) => {
+    .then(async res => {
       if (res) {
         nowblog.value = JSON.parse(JSON.stringify(res.data));
         data.value = nowblog.value.fileflud;

@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, onMounted, ref, computed } from "vue";
+import { defineComponent, onMounted, ref, computed ,onBeforeMount} from "vue";
 import { useRouter } from "vue-router";
 import store from "@/store";
 defineComponent({
@@ -71,6 +71,9 @@ let leftBlogs = ref([]);
 let rightBlogs = ref([]);
 let blogItems = computed(() => {
   return store.state.blogs.allBlogs;
+});
+onBeforeMount(() => {
+  document.documentElement.scrollTop = 0;
 });
 onMounted(async () => {
   if (store.state.blogs.allBlogs.length == 0) {
@@ -86,10 +89,7 @@ onMounted(async () => {
   }
 });
 let handelView = (_id) => {
-  const { href } = router.resolve({
-    path: `/blogdetails/${_id}`,
-  });
-  window.open(href, "_blank");
+  router.push(`/blogdetails/${_id}`)
 };
 const scrollToFooter = () => {
   const docEle = document.documentElement;
