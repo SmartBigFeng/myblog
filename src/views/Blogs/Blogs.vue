@@ -103,13 +103,14 @@ let condition = ref({
   conmonth: "",
   compos: "",
 });
-onBeforeMount(async () => {
-  if (store.state.blogs.allBlogs.length == 0) {
-    await store.dispatch("blogs/getAllBlogs", {});
-  }
-  allBlogs.value = store.state.blogs.allBlogs.slice(0, 9);
-});
 onMounted(() => {
+  if (store.state.blogs.allBlogs.length == 0) {
+    store.dispatch("blogs/getAllBlogs", {}).then((res)=>{
+      allBlogs.value=res
+    });
+  }else{
+    allBlogs.value = store.state.blogs.allBlogs.slice(0, 9);
+  }
   document.documentElement.scrollTop = "0";
   let nowyear = new Date().getFullYear();
   for (let startyear = 2022; startyear <= nowyear; startyear++) {

@@ -72,9 +72,9 @@ const actions = {
         return http.post('blogs/getAll', {
             type: payload && payload.type == 'all' ? payload.type : 'all',
             condition: payload == undefined ? {} : payload.condition
-        }).then((res: any) => {
+        }).then(async(res: any) => {
             if (payload && payload.type == 'all') {
-                context.commit('updateAllBlogs', res.data.data);
+                await context.commit('updateAllBlogs', res.data.data);
             }
             return res.data.data;
         })
