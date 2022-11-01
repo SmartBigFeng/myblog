@@ -1,7 +1,11 @@
 <template>
   <div>
-    <router-view />
-    <el-icon class="scollTop" ref="scrollTopBtn" @click="ScrollToTop" v-show="toptarget">
+    <router-view v-slot="{ Component }">
+      <transition name="slide-fade">
+        <component class="child-view" :is="Component" />
+      </transition>
+    </router-view>
+        <el-icon class="scollTop" ref="scrollTopBtn" @click="ScrollToTop" v-show="toptarget">
       <ArrowUp />
     </el-icon>
   </div>
@@ -87,6 +91,16 @@ a {
 ul {
   list-style-type: none;
 }
+/* 离开 */
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateX(50px)
+}
+/* 进入 */
+.slide-fade-enter-from {
+  opacity: 0;
+  transform: translateX(-50px)
+}
 </style>
 <style lang="scss" scoped>
 .scollTop {
@@ -102,5 +116,16 @@ ul {
   border-radius: 50%;
   box-shadow: 0 0 5px #f00;
   cursor: pointer;
+}
+</style>
+
+<style lang="scss" scoped>
+.v-enter-from {
+  opacity: 0; // 组件初始先隐藏
+  transform: translateX(50px); // 出现的时候向左滑一下的效果
+}
+.v-leave-to {
+  opacity: 0; // 组件离开的时候要隐藏掉
+  transform: translateX(-50px); // 离开的时候向左滑一下
 }
 </style>

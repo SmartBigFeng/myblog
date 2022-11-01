@@ -1,8 +1,9 @@
 <template>
+  <transition name="slide-fade">
   <div class="box">
     <nav-head></nav-head>
     <div class="show">
-      <div class="below">
+      <div class="below swing_skew_1">
         <img src="@/assets/aboutMe/me.jpg" />
       </div>
       <div class="above">
@@ -23,6 +24,7 @@
       <ArrowDown />
     </el-icon>
   </div>
+</transition>
   <footer-com></footer-com>
 </template>
 
@@ -124,6 +126,7 @@ const scrollFooter = () => {
         margin-top: 10vh;
         height: 60vh;
         object-fit: contain;
+        border-radius:10px;
       }
     }
 
@@ -143,11 +146,31 @@ const scrollFooter = () => {
 
       p {
         margin-top: 16px;
-        font-size: 20px;
+        font-size: 20px !important;
         line-height: 32px;
         height: 60vh;
       }
     }
+  }
+}
+.swing_skew_1{
+    -webkit-animation:swing_skew_1 1s ease;
+    -webkit-transform-origin:0% 100%;
+}
+@-webkit-keyframes swing_skew_1{
+  0% {
+    opacity: 0;
+    -webkit-transform:translateX(400px) skew(-45deg)
+  }
+  30%{
+    opacity:1;
+    -webkit-transform:translateX(0) skew(8deg);
+  }
+  50%{
+    -webkit-transform:translateX(0) skew(-3deg);
+  }
+  70%{
+    -webkit-transform:translateX(0) skew(1deg);
   }
 }
 </style>

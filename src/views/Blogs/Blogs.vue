@@ -164,7 +164,7 @@ ul {
   width: 1200px;
   margin-top: 80px;
   main {
-    height: calc(100vh - 80px);
+    min-height: calc(100vh - 80px);
   }
   .main-head {
     display: flex;
@@ -198,8 +198,5 @@ ul {
     font-size: 26px;
     color: #b0b0b0;
   }
-}
-.el-empty {
-  margin-top: 100px;
 }
 </style>

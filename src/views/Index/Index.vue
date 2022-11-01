@@ -1,9 +1,9 @@
 <template>
-    <nav-head ></nav-head>
-    <banner-view ></banner-view>
-    <gallery-view></gallery-view>
-    <index-blog></index-blog>
-    <FooterCom></FooterCom>
+  <nav-head></nav-head>
+  <banner-view></banner-view>
+  <gallery-view></gallery-view>
+  <index-blog></index-blog>
+  <FooterCom></FooterCom>
 </template>
 
 <script setup lang="ts">
@@ -14,7 +14,7 @@ import FooterCom from '@/components/FooterCom.vue'
 import IndexBlog from '@/components/IndexBlog.vue'
 import BannerView from '@/components/Banner.vue'
 defineComponent({
-    name: 'IndexView'
+  name: 'IndexView'
 })
 onMounted(() => {
   document.documentElement.scrollTop = 0
