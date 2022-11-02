@@ -42,8 +42,8 @@
           </el-carousel>
         </div>
       </div>
-      <footer-com></footer-com>
     </div>
+    <footer-com></footer-com>
   </div>
 </template>
 
@@ -64,28 +64,25 @@ let nowimgs = ref([]);
 let nowinfos = ref([]);
 let nowdata = ref({});
 let nowtitle = ref("");
-let vLoadingTag = ref(false);
-const renewTitle = (newval: string) => {
-  vLoadingTag.value = true;
-  try {
-    nowtitle.value = newval;
-    nowinfos.value = [];
-    store.dispatch("works/list", { title: nowtitle.value }).then(res => {
-      if (Object.keys(res).length > 0) {
-        nowdata.value = res.data;
-        for (let item in nowdata.value.infos) {
-          nowinfos.value.push({
-            projname: nowdata.value.infos[item].projname,
-            url: nowdata.value.infos[item].worksurl[0]
-          });
-        }
+const renewTitle = newval => {
+  console.log(newval)
+  nowtitle.value = newval;
+  nowinfos.value = [];
+  store.dispatch("works/list", { title: nowtitle.value }).then(res => {
+    if (Object.keys(res).length > 0) {
+      if(!res || !res.data){
+        nowdata.value=[]
+        return;
       }
-    });
-    vLoadingTag.value = false;
-  } catch {
-    vLoadingTag.value = false;
-    return;
-  }
+      nowdata.value = res.data;
+      for (let item in nowdata.value.infos) {
+        nowinfos.value.push({
+          projname: nowdata.value.infos[item].projname,
+          url: nowdata.value.infos[item].worksurl[0]
+        });
+      }
+    }
+  });
 };
 onBeforeMount(() => {
   document.documentElement.scrollTop = 0;

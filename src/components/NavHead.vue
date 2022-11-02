@@ -1,55 +1,72 @@
 <template>
   <header class="bg-black">
     <nav class="nav-container">
-      <img class="logo-white" src="@/assets/Head/NavLogo.png" />
-      <span class="routerimg" @click="router.push('/')"></span>
+      <img class="logo-white" src="@/assets/Head/NavLogo.png" @click="router.push('/')" />
       <el-menu class="router-list">
         <el-menu-item class="item-white" style="padding:0;">
-          <span class="iconcontainer" @click="router.push('/')">
+          <span class="head_span" @click="router.push('/')">
             <el-icon>
               <HomeFilled />
-            </el-icon>
-            <span class="title">主页</span>
+            </el-icon>主页
+            <span class="t_r"></span>
+            <span class="r_b"></span>
+            <span class="b_l"></span>
+            <span class="l_t"></span>
           </span>
         </el-menu-item>
         <el-menu-item class="item-white" style="padding:0;">
-          <span class="iconcontainer" @click="router.push('/indexproject')">
+          <span class="head_span" @click="router.push('/indexproject')">
             <el-icon>
               <Grid />
-            </el-icon>
-            <span class="title">项目</span>
+            </el-icon>项目
+            <span class="t_r"></span>
+            <span class="r_b"></span>
+            <span class="b_l"></span>
+            <span class="l_t"></span>
           </span>
         </el-menu-item>
         <el-menu-item class="item-white" style="padding:0;">
-          <span class="iconcontainer" @click="router.push('/indexblogs')">
+          <span class="head_span" @click="router.push('/indexblogs')">
             <el-icon>
               <Document />
-            </el-icon>
-            <span class="title">博客</span>
+            </el-icon>博客
+            <span class="t_r"></span>
+            <span class="r_b"></span>
+            <span class="b_l"></span>
+            <span class="l_t"></span>
           </span>
         </el-menu-item>
         <el-menu-item class="item-white" style="padding:0;">
-          <span class="iconcontainer" @click="router.push('/aboutme')">
+          <span class="head_span" @click="router.push('/aboutme')">
             <el-icon>
               <Avatar />
-            </el-icon>
-            <span class="title">关于我</span>
+            </el-icon>关于我
+            <span class="t_r"></span>
+            <span class="r_b"></span>
+            <span class="b_l"></span>
+            <span class="l_t"></span>
           </span>
         </el-menu-item>
         <el-menu-item class="item-white" style="padding:0;">
-          <span class="iconcontainer" @click="router.push('/personal')">
+          <span class="head_span" @click="router.push('/personal')">
             <el-icon>
               <Setting />
-            </el-icon>
-            <span class="title">个人中心</span>
+            </el-icon>个人中心
+            <span class="t_r"></span>
+            <span class="r_b"></span>
+            <span class="b_l"></span>
+            <span class="l_t"></span>
           </span>
         </el-menu-item>
         <el-menu-item class="item-white" style="padding:0;" :disabled="showtag">
-          <span class="iconcontainer" @click="clearCookie">
+          <span class="head_span" @click="clearCookie">
             <el-icon>
               <SwitchButton />
-            </el-icon>
-            <span class="title">退出登录</span>
+            </el-icon>退出登录
+            <span class="t_r"></span>
+            <span class="r_b"></span>
+            <span class="b_l"></span>
+            <span class="l_t"></span>
           </span>
         </el-menu-item>
       </el-menu>
@@ -57,7 +74,7 @@
   </header>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { defineComponent, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 defineComponent({
@@ -102,9 +119,9 @@ header {
   top: 0;
   height: $height;
   line-height: $height;
-  width: 100vw;
-  box-sizing: border-box;
+  width: 100%;
   z-index: 100;
+  box-sizing: border-box;
 
   .nav-container {
     box-sizing: border-box;
@@ -119,16 +136,9 @@ header {
       width: 208px;
       height: 57px;
       object-fit: contain;
-    }
-    span.routerimg{
-      display: block;
-      width:220px;
-      height:80px;      
-      position: absolute;
-      left:208px;
-      top:0;
       cursor: pointer;
     }
+
     .router-list {
       width: 600px;
       $bgcolor: rgba(0, 0, 0, 0);
@@ -154,24 +164,60 @@ header {
         justify-content: space-between;
         align-items: center;
         transition: 0.2s;
-        @keyframes colorChange {
-          20% {
-            color: #8fd1e1;
+        &:hover {
+          color: #8fd1e1;
+        }
+        span.head_span {
+          display: flex;
+          align-items: center;
+          padding:0 20px;
+          position: relative;
+          margin:0 8px;
+          &:hover {
+              -webkit-animation: anima_wobble 2s;
+            }
+          .t_r{
+            position: absolute;
+            top:0;
+            left:0;
+            height:2px;
+            width:0;
+            background-color: #8fd1e1;
+            transition:all linear 0.3s;
           }
-          80% {
-            color: #fff;
+          .b_l{
+            position: absolute;
+            bottom:0;
+            right:0;
+            height:2px;
+            width:0;
+            background-color: #8fd1e1;
+            transition:all linear 0.3s;
           }
-        }
-        span.iconcontainer {
-          transition: font-size 0.5s;
-          margin: 0 10px;
-        }
-        span.iconcontainer .el-icon {
-          transition: font-size 0.5s;
-          animation: colorChange 1s forwards 0.1s;
-        }
-        &:hover .iconcontainer {
-          animation: colorChange 1s forwards 0.1s;
+          &:hover .t_r,&:hover .b_l{
+            width:100%;
+          }
+          .r_b{
+            position: absolute;
+            top:0;
+            right:0;
+            height:0;
+            width:2px;
+            background-color: #8fd1e1;
+            transition:all linear 0.3s;
+          }
+          .l_t{
+            position: absolute;
+            bottom:0;
+            left:0;
+            height:0;
+            width:2px;
+            background-color: #8fd1e1;
+            transition:all linear 0.3s;
+          }
+          &:hover .r_b,&:hover .l_t{
+            height:100%;
+          }
         }
       }
     }
@@ -192,5 +238,25 @@ header {
 
   height: 100px;
   background-color: #25272b;
+}
+@-webkit-keyframes anima_wobble{
+  7.5% {
+    -webkit-transform: translateX(-15%) rotate(-3deg);
+  }
+  15% {
+    -webkit-transform: translateX(12%) rotate(2deg);
+  }
+  22.5% {
+    -webkit-transform: translateX(-9%) rotate(-2deg);
+  }
+  30% {
+    -webkit-transform: translateX(6%) rotate(1deg);
+  }
+  37.5% {
+    -webkit-transform: translateX(-3%) rotate(-1deg);
+  }
+  50%{
+      -webkit-transform: translateX(0) rotate(0deg)
+  }
 }
 </style>

@@ -1,8 +1,9 @@
 <template>
-  <div class="box">
+  <div class="box" v-loading="loading">
     <NavHead></NavHead>
-    <div class="breadcrumb">
-      <button class="breadBtn" @click="router.push('/indexblogs')">Blogs</button>
+    <div class="container">
+      <div class="breadcrumb">
+      <button class="breadBtn" @click="router.push('/indexblogs')">返回</button>
       <span class="separator">|</span>
       <button class="breadBtn">{{ nowblog.kinds }}</button>
     </div>
@@ -18,10 +19,11 @@
       <h4 style="font-size: 32px; margin-top: 30px">正文部分</h4>
       <div
         v-html="
-          data.replace('p><p', `p class='passagep'><hr class='passagehr' /><p`)
+         dataHandle(data)
         "
       ></div>
     </main>
+    </div>
   </div>
   <footer-com></footer-com>
 </template>
@@ -35,24 +37,32 @@ import http from "@/utils/http";
 defineComponent({
   name: "BlogDetails"
 });
+let loading = ref(false)
 let data = ref("");
 let router = useRouter();
 let route = useRoute();
 let nowblog = ref({});
-onBeforeMount(() => {
-  document.documentElement.scrollTop = 0;
-});
+const dataHandle=(data:string)=>{
+  // data.replace('p><p', `p class='passagep'><hr class='passagehr' /><p`).replace('code><p', `code><p class='passagep' /><hr class='passagehr' /><p`)
+  let oridata = data;
+  oridata=oridata.replace(/<h3/g,'<h3 style="padding:16px 0;"')
+  return oridata.replace(/\/pre>/g, `\/pre><p class='passagep' /><hr class='passagehr' />`)
+}
 // 生命周期钩子函数
 onMounted(() => {
+  loading.value=true;
+  document.documentElement.scrollTop = 0;
+  // route.params.id
   http
     .post("/blogs/getOne", {
-      _id: route.params.id
+      _id: route.query.id,
     })
     .then(async res => {
       if (res) {
         nowblog.value = JSON.parse(JSON.stringify(res.data));
         data.value = nowblog.value.fileflud;
       }
+      loading.value=false;
     });
 });
 </script>
@@ -71,7 +81,7 @@ ul {
   box-sizing: border-box;
   margin: 0 auto;
   margin-top: 80px;
-  padding: 70px 85px 310px 85px;
+  padding: 70px 85px 0 85px;
   min-height: calc(100vh - 80px);
   width: 1200px;
   background-color: #f2f2f2;
@@ -94,9 +104,12 @@ ul {
       margin: 0 60px;
     }
   }
-
+  div.container{
+    -webkit-animation:zoom_move_6 0.5s;
+  }
   main {
     padding-top: 40px;
+
     .blogtitleinfo {
       display: flex;
       height: 60px;
@@ -122,5 +135,22 @@ ul {
       }
     }
   }
+}
+
+@-webkit-keyframes zoom_move_6 {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-400px) scale(0);
+  }
+}
+</style>
+<style>
+pre{
+  background: rgba(0, 0, 0, 0.7);
+  color:#ccc;
+  font-size: 16px;
+  display: block;
+  padding:10px;
+  margin:10px 0;
 }
 </style>

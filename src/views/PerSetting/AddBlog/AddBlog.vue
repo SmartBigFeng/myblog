@@ -157,7 +157,7 @@ let getTemblog = () => {
 };
 
 const getTime = () => {
-  return moment().format("YYYY-MM");
+  return moment().format("YYYY-MM-DD HH:mm:ss");
 };
 const handleCreated = editor => {
   editorRef.value = editor;

@@ -1,14 +1,12 @@
 <template >
-  <router-link v-for="item in state.coverInfo" :to="'/blogdetails/' + item._id">
+  <router-link v-for="item in state.coverInfo" :to="'/blogdetails/?id=' + item._id" :key="item.id">
     <div class="blogbox">
       <span class="genre-type">{{ item.kinds }}</span>
       <div class="img-box">
         <img :src="item.infos.fileurl" />
       </div>
-      <span
-        :class="item.infos.compos == '原创' ? 'genre-original' : 'genre-retransmit'"
-      >{{ item.infos.compos }}</span>
-      <h5>{{ item.infos.blogtitle }}</h5>
+      <span :class="item.infos.compos == '原创' ? 'genre-original' : 'genre-retransmit'">{{ item.infos.compos }}</span>
+      <h5 class="titlestyle">{{ item.infos.blogtitle }}</h5>
       <p>{{ item.infos.posttime }}</p>
     </div>
   </router-link>
@@ -38,7 +36,9 @@ let state = defineProps({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  & > .img-box img {
+
+
+  &>.img-box img {
     transition: all 0.5s;
   }
 
@@ -92,11 +92,13 @@ let state = defineProps({
     background-color: #f7c7cc;
   }
 
-  h5 {
+  h5.titlestyle {
     margin-top: 20px;
-    height: 40px;
     font-size: 28px;
     color: #5f5f5f;
+    width:320px;
+    word-break: break-all;
+    word-wrap:wrap;
   }
 
   p {
@@ -105,5 +107,8 @@ let state = defineProps({
     font-size: 16px;
     color: #5f5f5f;
   }
+}
+.el-empty {
+  margin-top: 100px;
 }
 </style>
