@@ -167,15 +167,16 @@ header {
         &:hover {
           color: #8fd1e1;
         }
+        &:hover span.head_span{
+              -webkit-animation: anima_wobble 2s;
+            }
         span.head_span {
           display: flex;
           align-items: center;
           padding:0 20px;
           position: relative;
           margin:0 8px;
-          &:hover {
-              -webkit-animation: anima_wobble 2s;
-            }
+          
           .t_r{
             position: absolute;
             top:0;
