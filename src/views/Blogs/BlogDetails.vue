@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" v-loading="loading">
     <NavHead></NavHead>
     <div class="container">
       <div class="breadcrumb">
@@ -37,6 +37,7 @@ import http from "@/utils/http";
 defineComponent({
   name: "BlogDetails",
 });
+let loading = ref(false)
 let data = ref("");
 let router = useRouter();
 let route = useRoute();
@@ -49,17 +50,19 @@ const dataHandle=(data:string)=>{
 }
 // 生命周期钩子函数
 onMounted(() => {
+  loading.value=true;
   document.documentElement.scrollTop = 0;
   // route.params.id
   http
     .post("/blogs/getOne", {
-      _id: route.params.id,
+      _id: route.query.id,
     })
     .then(async (res) => {
       if (res) {
         nowblog.value = JSON.parse(JSON.stringify(res.data));
         data.value = nowblog.value.fileflud;
       }
+      loading.value=false;
     });
 });
 </script>
@@ -139,5 +142,15 @@ ul {
     opacity: 0;
     -webkit-transform: translateX(-400px) scale(0);
   }
+}
+</style>
+<style>
+pre{
+  background: rgba(0, 0, 0, 0.7);
+  color:#ccc;
+  font-size: 16px;
+  display: block;
+  padding:10px;
+  margin:10px 0;
 }
 </style>

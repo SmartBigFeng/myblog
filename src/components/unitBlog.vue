@@ -1,5 +1,5 @@
 <template >
-  <router-link v-for="item in state.coverInfo" :to="'/blogdetails/' + item._id" :key="item.id">
+  <router-link v-for="item in state.coverInfo" :to="'/blogdetails/?id=' + item._id" :key="item.id">
     <div class="blogbox">
       <span class="genre-type">{{ item.kinds }}</span>
       <div class="img-box">

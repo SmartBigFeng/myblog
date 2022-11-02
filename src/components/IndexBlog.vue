@@ -13,41 +13,21 @@
       </div>
     </section>
     <div id="blog-wraper" v-if="blogItems.length">
-      <div class="left" v-if="leftBlogs.length != 0">
-        <div
-          class="cards"
-          v-for="item in leftBlogs"
-          :key="item._id"
-          @click="handelView(item._id)"
-        >
-          <h3>{{ item.kinds }}</h3>
-          <span>{{ item.infos.posttime }}</span>
-          <figure>
-            <figcaption>
-              <h2>{{ item.infos.blogtitle }}</h2>
+      <div class="cards" v-for="item in blogItems" :key="item._id" @click="handelView(item._id)">
+        <h3>{{ item.kinds }}</h3>
+        <span>{{ item.infos.posttime }}</span>
+        <figure>
+          <figcaption>
+            <h2>{{ item.infos.blogtitle }}</h2>
+            <p v-if="item.infos.intro?.length < 20" class="passage" show-after="200">{{ item.infos.intro }}</p>
+            <el-tooltip v-else placement="right" popper-class="popcontent">
+              <template #content>
+                  {{ item.infos.intro }}
+              </template>
               <p class="passage">{{ item.infos.intro }}</p>
-            </figcaption>
-          </figure>
-        </div>
-      </div>
-      <div class="right" v-if="rightBlogs.length != 0">
-        <div
-          class="cards"
-          v-for="item in rightBlogs"
-          :key="item._id"
-          @click="handelView(item._id)"
-        >
-          <h3>{{ item.kinds }}</h3>
-          <figure>
-            <div class="img-box">
-              <img :src="item.infos.fileurl" />
-            </div>
-            <figcaption>
-              <h2>{{ item.infos.blogtitle }}</h2>
-              <p class="passage">{{ item.infos.intro }}</p>
-            </figcaption>
-          </figure>
-        </div>
+            </el-tooltip>
+          </figcaption>
+        </figure>
       </div>
     </div>
     <template v-else>
@@ -70,26 +50,15 @@ let router = useRouter();
 let leftBlogs = ref([]);
 let rightBlogs = ref([]);
 let blogItems = computed(() => {
-  return store.state.blogs.allBlogs;
+  return store.state.blogs.allBlogs.slice(0,8);
 });
 onMounted(async () => {
   if (store.state.blogs.allBlogs.length == 0) {
     await store.dispatch("blogs/getAllBlogs");
   }
-
-  leftBlogs.value =
-    blogItems.value.length != 0 ? blogItems.value.slice(0, 2) : [];
-  if (blogItems.value.length > 2) {
-    rightBlogs.value = blogItems.value.slice(2, 4);
-  } else {
-    rightBlogs.value = [];
-  }
 });
-let handelView = (_id) => {
-  const { href } = router.resolve({
-    path: `/blogdetails/${_id}`,
-  });
-  window.open(href, "_blank");
+let handelView = (_id: string) => {
+  router.push({path:'/blogdetails',query:{id:_id}})
 };
 const scrollToFooter = () => {
   const docEle = document.documentElement;
@@ -109,24 +78,28 @@ p.title {
   border-radius: 10px;
   box-shadow: 1px 1px 8px 0px #ebebeb;
 }
+
 @keyframes scrollProj {
   50% {
     transform: scale(1.2);
     background: rgba($color: #483f59, $alpha: 0.5);
     font-size: 32px;
   }
+
   100% {
     transform: scale(1);
     background: rgba($color: #000000, $alpha: 0);
     font-size: 24px;
   }
 }
+
 .indexblog {
   padding-top: 80px;
   min-height: 800px;
   height: calc(100vh - 80px);
   max-height: 900px;
   position: relative;
+
   &::after {
     content: "";
     display: block;
@@ -140,6 +113,7 @@ p.title {
     z-index: -1;
     opacity: 0.6;
   }
+
   .ToFooter {
     display: block;
     width: 50px;
@@ -162,6 +136,7 @@ p.title {
     animation: scrollProj 2s forwards infinite;
   }
 }
+
 section {
   width: 1200px;
   margin: 0 auto;
@@ -171,26 +146,26 @@ section {
   box-sizing: border-box;
   justify-content: center;
 
-  & > p {
+  &>p {
     margin: 0 auto;
     line-height: 40px;
     text-justify: distribute;
   }
 
-  & > h2 {
+  &>h2 {
     line-height: 60px;
     font-size: 28px;
     font-weight: 500;
   }
 
-  & > h3 {
+  &>h3 {
     width: 100%;
     text-align: center;
     font-size: 22px;
     padding: 10px 0;
   }
 
-  & > h3 {
+  &>h3 {
     border-bottom: 0;
   }
 
@@ -206,11 +181,11 @@ section {
     padding: 10px;
     cursor: pointer;
 
-    & > p {
+    &>p {
       line-height: 30px;
     }
 
-    & > el-icon {
+    &>el-icon {
       height: 30px;
       line-height: 30px;
       font-size: 30px !important;
@@ -225,26 +200,31 @@ section {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  max-height: 560px;
+  max-height: 600px;
+  flex-wrap: wrap;
+
   div.cards {
     box-sizing: border-box;
-    padding: 0 25px;
-    height: 240px;
+    padding: 0 10px;
+    height: 270px;
     line-height: 30px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    box-shadow: 5px 6px 15px -5px rgba(0, 0, 0, 0.26);
+    width: 290px;
     cursor: pointer;
     transition: all 0.5s;
     cursor: pointer;
+    background-color: rgba($color: #fff, $alpha: 0.5);
+
     &:hover {
       transform: scale(1.03);
+      box-shadow: 8px 8px 25px -5px rgba(0, 255, 255, 0.30);
     }
 
     h3 {
       font-size: 20px;
-      color: #ccc;
+      color: rgba($color: #000000, $alpha: 0.5);
       font-weight: 500;
       padding-top: 10px;
       width: 100%;
@@ -254,6 +234,7 @@ section {
       box-sizing: border-box;
       display: flex;
       justify-content: space-between;
+      transition:all 0.5s;
 
       span {
         font-size: 16px;
@@ -289,72 +270,37 @@ section {
         flex-direction: column;
 
         h2 {
-          line-height: 40px;
           margin-top: 8px;
           margin-bottom: 10px;
+          height: 60px;
         }
 
         p {
           flex: 1;
           margin: 0;
           resize: none;
+          word-wrap: break-word;
+          word-break: break-all;
+          white-space: pre-wrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
         }
+
       }
-    }
-  }
-
-  .left {
-    width: 380px;
-    margin-right: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-
-    div:nth-child(1) {
-      flex: 1;
-      margin-bottom: 10px;
-      box-sizing: content-box;
-      @include frame;
-    }
-
-    div:nth-child(2) {
-      flex: 1;
-      box-sizing: content-box;
-      @include frame;
-    }
-    .passage {
-      max-height: 100px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-  }
-
-  .right {
-    width: 790px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    div.cards {
-      flex: 1;
-      box-sizing: content-box;
-      @include frame;
-      transition: 0.5s all linear;
-      margin-bottom: 10px;
-      &:hover {
-        transform: scale(1.02);
-      }
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-    .passage {
-      max-height: 120px;
-      text-overflow: ellipsis;
-      overflow: hidden;
     }
   }
 }
+
 .el-empty {
   padding-top: 0;
 }
+</style>
+<style>
+  .popcontent{
+    width:280px;
+    font-size: 20px;
+  }
 </style>

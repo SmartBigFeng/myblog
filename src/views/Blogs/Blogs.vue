@@ -61,6 +61,10 @@
               <el-option value="转载" />
             </el-select>
           </div>
+          <div>
+            <p style="margin: 16px 0;height:28px;"></p>
+            <el-button class="reset_btn" @click="reset">重置</el-button>
+          </div>
         </div>
         <div class="main-content">
           <unit-blog v-if="allBlogs.length" :coverInfo="allBlogs"></unit-blog>
@@ -120,7 +124,20 @@ onMounted(() => {
     });
   }
 });
-
+const reset = ()=>{
+  condition.value.kinds =''
+  condition.value.compos =''
+  condition.value.conmonth =''
+  condition.value.conyear=''
+  store
+    .dispatch("blogs/getAllBlogs", {
+      type: "condition",
+      condition: {},
+    })
+    .then((res) => {
+      allBlogs.value = res.slice(0, 9);
+    });
+}
 watch(condition.value, () => {
   let newcondition = JSON.parse(JSON.stringify(condition.value));
   newcondition.conmonth =
@@ -161,7 +178,6 @@ ul {
 
 .box {
   margin: 0 auto;
-  padding-top: 40px;
   width: 1200px;
   margin-top: 80px;
   main {
@@ -173,7 +189,7 @@ ul {
     color: #5f5f5f;
 
     div {
-      margin-right: 50px;
+      margin-right: 30px;
 
       p {
         margin: 16px 0;
@@ -182,12 +198,15 @@ ul {
       .el-select {
         width: 200px;
       }
+      .reset_btn{
+        padding:4px 20px;
+        height:40px;
+      }
     }
   }
 
   .main-content {
     width: 1251px;
-    margin-top: -12px;
     padding: 0px 2px;
     padding-bottom: 10px;
     overflow: hidden;

@@ -4,8 +4,7 @@ import router from './router'
 import store from './store'
 import ElementPlus from 'element-plus'
 import * as Icons from '@element-plus/icons-vue'
-import 'element-plus/dist/index.css'
-
+import 'element-plus/dist/index.css' 
 const app = createApp(App);
 for (const attr in Icons) {
     app.component(attr, Icons[attr as keyof typeof Icons]);

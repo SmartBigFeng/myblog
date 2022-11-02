@@ -3,6 +3,7 @@ module.exports = defineConfig({
   parallel:false,
   transpileDependencies: true,
   configureWebpack: {
+    externals: 'hls.js',
     resolve: {
       extensions: ['.js', '.vue', '.json', '.ts'],
       alias: {}

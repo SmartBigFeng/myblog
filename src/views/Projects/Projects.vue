@@ -42,8 +42,8 @@
           </el-carousel>
         </div>
       </div>
-      <footer-com></footer-com>
     </div>
+    <footer-com></footer-com>
   </div>
 </template>
 
@@ -70,6 +70,10 @@ const renewTitle = newval => {
   nowinfos.value = [];
   store.dispatch("works/list", { title: nowtitle.value }).then(res => {
     if (Object.keys(res).length > 0) {
+      if(!res || !res.data){
+        nowdata.value=[]
+        return;
+      }
       nowdata.value = res.data;
       for (let item in nowdata.value.infos) {
         nowinfos.value.push({
