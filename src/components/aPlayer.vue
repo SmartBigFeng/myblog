@@ -5,34 +5,33 @@
 <script setup lang="ts">
 import APlayer from 'aplayer';
 import 'aplayer/dist/APlayer.min.css';
-import { reactive, watch,nextTick, computed, getCurrentInstance, onMounted, ref ,PropType} from 'vue'
-
+import { reactive, watch, nextTick, computed, getCurrentInstance, onMounted, ref, PropType } from 'vue'
 const playerRef = ref(null)
 const { proxy } = getCurrentInstance()
 const state = reactive({
     instance: null
 })
-export interface audioListTypes{
-    name:string;
-    artist:string;
-    url:string;
-    cover:string;
-    theme:string;
-    lrc?:string;
+export interface audioListTypes {
+    name: string;
+    artist: string;
+    url: string;
+    cover: string;
+    theme: string;
+    lrc?: string;
 }
 const props = defineProps({
     // 音乐列表
-    audio:{
-        type:Array as PropType<audioListTypes[]>,
-        required:true,
-        default:()=>{
+    audio: {
+        type: Array as PropType<audioListTypes[]>,
+        required: true,
+        default: () => {
             return []
         }
     },
     // 自动播放
-    autoplay:{
-        type:Boolean,
-        default:false
+    autoplay: {
+        type: Boolean,
+        default: false
     },
     // 开启吸底模式
     fixed: {
@@ -97,16 +96,17 @@ const props = defineProps({
         type: String,
         default: 'aplayer-setting'
     },
-    fixPosition:{
-        type:String,
-        default:'' // l-b 左下角  r-b 右下角
+    fixPosition: {
+        type: String,
+        default: '' // l-b 左下角  r-b 右下角
     }
 })
 let ap = reactive({})
 onMounted(() => {
     initPlayer()
+
 })
-const initPlayer = ()=>{
+const initPlayer = () => {
     let options = JSON.parse(JSON.stringify(props))
     delete options.audio;
     delete options.fixPosition;
@@ -114,32 +114,38 @@ const initPlayer = ()=>{
         container: playerRef.value,
         ...props
     });
-    playerRef.value.setAttribute("class",`${playerRef.value.getAttribute("class")} ${props.fixPosition}`)
+    setTimeout(()=>{
+        ap.events.events.play[0]()
+        ap.events.events.pause[0]()
+        ap.events.events.play[0]()
+    },1000)
+    playerRef.value && playerRef.value.setAttribute("class", `${playerRef.value.getAttribute("class")} ${props.fixPosition}`);
 }
 
 </script>
    
 <style lang='scss' scoped>
-
-.aplayer.aplayer-withlrc .aplayer-lrc{
-  display: none;
+.aplayer.aplayer-withlrc .aplayer-lrc {
+    display: none;
 }
-.l-b{
+
+.l-b {
     background: #FCFCFC;
     border: 1px solid #E0E0E0;
     border-radius: 4px;
     position: fixed;
-    left:0;
-    bottom:0;
+    left: 0;
+    bottom: 0;
     z-index: 100;
 }
-.r-b{
+
+.r-b {
     background: #FCFCFC;
     border: 1px solid #E0E0E0;
     border-radius: 4px;
     position: fixed;
-    right:0;
-    bottom:0;
+    right: 0;
+    bottom: 0;
     z-index: 100;
 }
 </style>
@@ -147,13 +153,14 @@ const initPlayer = ()=>{
 .aplayer .aplayer-lrc {
     display: none;
     position: relative;
-    width:220px;
+    width: 220px;
     padding-top: 5px;
-    height:40px;
+    height: 40px;
     text-align: center;
     overflow: hidden;
     margin: -10px 0 7px;
 }
+
 .aplayer.aplayer-withlrc .aplayer-info {
     margin-left: 90px;
     height: 90px;

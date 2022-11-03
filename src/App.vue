@@ -5,7 +5,7 @@
       <ArrowUp />
     </el-icon>
   </div>
-  <aPlayer :audio="audioList" :order="'list'" :mini="true" :autoplay="true" :volume="1" fix-position="r-b"></aPlayer>
+  <aPlayer :audio="audioList" :order="'list'" :mini="true" :autoplay="false" :volume="1" fix-position="r-b"></aPlayer>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
