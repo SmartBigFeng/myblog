@@ -81,7 +81,7 @@ ul {
   box-sizing: border-box;
   margin: 0 auto;
   margin-top: 80px;
-  padding: 70px 85px 0 85px;
+  padding: 70px 20px 0 20px;
   min-height: calc(100vh - 80px);
   width: 1200px;
   background-color: #f2f2f2;

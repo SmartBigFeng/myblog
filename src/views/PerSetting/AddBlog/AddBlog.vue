@@ -1,16 +1,8 @@
 <template>
   <div>
     <div class="editorContainer">
-      <Toolbar
-        style="border-bottom: 1px solid #ccc"
-        :editor="editorRef"
-        :defaultConfig="toolbarConfig"
-      />
-      <Editor
-        style="height: 500px; overflow-y: hidden"
-        v-model="valueHtml"
-        @onCreated="handleCreated"
-      />
+      <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig" />
+      <Editor style="height: 500px; overflow-y: hidden" v-model="valueHtml" @onCreated="handleCreated" />
     </div>
     <ul class="editorbtn">
       <li>
@@ -30,29 +22,12 @@
       <el-dialog v-model="showTarget" title="添加作品" width="60%" :destroy-on-close="true">
         <el-form ref="ruleFormRef" :model="ruleForm" label-width="90px" :rules="rules">
           <el-form-item label="类别" prop="kind">
-            <el-select
-              v-model="ruleForm.kind"
-              class="m-2"
-              placeholder="请选择分类"
-              size="large"
-              width="200px;"
-            >
-              <el-option
-                v-for="item in optionKinds"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+            <el-select v-model="ruleForm.kind" class="m-2" placeholder="请选择分类" size="large" width="200px;">
+              <el-option v-for="item in optionKinds" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
           <el-form-item label="创作类别" prop="compos">
-            <el-select
-              v-model="ruleForm.compos"
-              class="m-2"
-              placeholder="请选择分类"
-              size="large"
-              width="200px;"
-            >
+            <el-select v-model="ruleForm.compos" class="m-2" placeholder="请选择分类" size="large" width="200px;">
               <el-option value="原创">原创</el-option>
               <el-option value="转载">转载</el-option>
             </el-select>
@@ -64,13 +39,8 @@
             <el-input v-model="ruleForm.intro" class="m-2" placeholder="请简单介绍博客" size="large"></el-input>
           </el-form-item>
           <el-form-item label="Blog封面图" prop="imgfile">
-            <el-upload
-              class="avatar-uploader"
-              :http-request="beforeUpload"
-              multiple
-              :show-file-list="false"
-              v-show="!imageUrl"
-            >
+            <el-upload class="avatar-uploader" :http-request="beforeUpload" multiple :show-file-list="false"
+              v-show="!imageUrl">
               <el-icon class="avatar-uploader-icon">
                 <Plus />
               </el-icon>
@@ -91,7 +61,7 @@
   </div>
 </template>
 
-    <script setup lang="ts">
+<script setup lang="ts">
 import "@wangeditor/editor/dist/css/style.css";
 import {
   onBeforeUnmount,
@@ -108,13 +78,43 @@ import store from "@/store";
 import moment from "moment";
 import optionKinds from "@/Mock/blogKinds.json";
 import { Check, Delete, Message, Edit } from "@element-plus/icons-vue";
+import { IEditorConfig } from '@wangeditor/editor'
 defineComponent({
   name: "RichEditor"
 });
 
 const editorRef = shallowRef();
 let valueHtml = ref("");
-const toolbarConfig = {};
+let toolbarConfig: Partial<IEditorConfig> = {
+  MENU_CONF: {}
+};
+toolbarConfig.MENU_CONF['uploadImage'] = {
+  server: '/api/upload-image',
+  allowedFileTypes: ['image/*'],
+  withCredentials: true,
+  timeout: 5 * 1000, // 5 秒
+  onBeforeUpload(file:File) { // TS 语法
+    // file 选中的文件，格式如 { key: file }
+    console.log(file);
+
+    return file
+
+    // 可以 return
+    // 1. return file 或者 new 一个 file ，接下来将上传
+    // 2. return false ，不上传这个 file
+  },
+
+}
+toolbarConfig.MENU_CONF['insertImage'] = {
+  nInsertedImage(imageNode) {                    // JS 语法
+    if (imageNode == null) return
+
+    const { src, alt, url, href } = imageNode
+    console.log('inserted image', src, alt, url, href)
+  },
+  // checkImage: customCheckImageFn, // 也支持 async 函数
+  // parseImageSrc: customParseImageSrc, // 也支持 async 函数
+}
 const editorConfig = { placeholder: "请输入内容..." };
 let showTarget = ref(false);
 let imageUrl = ref("");
@@ -300,7 +300,7 @@ let rules = reactive({
 });
 </script>
 
-    <style lang="scss" scoped>
+<style lang="scss" scoped>
 .editorContainer {
   width: 90%;
   min-width: 1000px;
