@@ -20,7 +20,7 @@
           <figcaption>
             <h2>{{ item.infos.blogtitle }}</h2>
             <p v-if="item.infos.intro?.length < 20" class="passage" show-after="200">{{ item.infos.intro }}</p>
-            <el-tooltip v-else placement="right" popper-class="popcontent">
+            <el-tooltip v-else placement="right" popper-class="popcontent" :enterable="false">
               <template #content>
                   {{ item.infos.intro }}
               </template>
@@ -212,6 +212,7 @@ section {
     display: flex;
     flex-direction: column;
     width: 290px;
+    margin-bottom: 16px;;
     cursor: pointer;
     transition: all 0.5s;
     cursor: pointer;
