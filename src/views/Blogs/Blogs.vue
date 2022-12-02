@@ -6,57 +6,22 @@
         <div class="main-head">
           <div class="main-head-one">
             <p>按内容分类</p>
-            <el-select
-              v-model="condition.kinds"
-              placeholder="按内容分类"
-              popper-class="select"
-              size="large"
-            >
-              <el-option
-                v-for="item in optionKinds"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+            <el-select v-model="condition.kinds" placeholder="按内容分类" popper-class="select" size="large">
+              <el-option v-for="item in optionKinds" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </div>
           <div class="main-head-two">
             <p>按时间分类</p>
-            <el-select
-              v-model="condition.conyear"
-              placeholder="按年份分类"
-              popper-class="select"
-              size="large"
-            >
-              <el-option
-                v-for="item in optionYears"
-                :key="item.value"
-                :label="item.label + '年'"
-                :value="item.value"
-              />
+            <el-select v-model="condition.conyear" placeholder="按年份分类" popper-class="select" size="large">
+              <el-option v-for="item in optionYears" :key="item.value" :label="item.label + '年'" :value="item.value" />
             </el-select>
-            <el-select
-              v-model="condition.conmonth"
-              placeholder="按月份分类"
-              popper-class="select"
-              size="large"
-            >
-              <el-option
-                v-for="month in 12"
-                :key="month"
-                :label="month + '月'"
-                :value="month"
-              />
+            <el-select v-model="condition.conmonth" placeholder="按月份分类" popper-class="select" size="large">
+              <el-option v-for="month in 12" :key="month" :label="month + '月'" :value="month" />
             </el-select>
           </div>
           <div class="main-head-three">
             <p>按原创分类</p>
-            <el-select
-              v-model="condition.compos"
-              placeholder="按原创分类"
-              popper-class="select"
-              size="large"
-            >
+            <el-select v-model="condition.compos" placeholder="按原创分类" popper-class="select" size="large">
               <el-option value="原创" />
               <el-option value="转载" />
             </el-select>
@@ -109,10 +74,10 @@ let condition = ref({
 });
 onMounted(() => {
   if (store.state.blogs.allBlogs.length == 0) {
-    store.dispatch("blogs/getAllBlogs", {}).then((res)=>{
-      allBlogs.value=res
+    store.dispatch("blogs/getAllBlogs", {}).then((res) => {
+      allBlogs.value = res
     });
-  }else{
+  } else {
     allBlogs.value = store.state.blogs.allBlogs.slice(0, 9);
   }
   document.documentElement.scrollTop = "0";
@@ -124,11 +89,11 @@ onMounted(() => {
     });
   }
 });
-const reset = ()=>{
-  condition.value.kinds =''
-  condition.value.compos =''
-  condition.value.conmonth =''
-  condition.value.conyear=''
+const reset = () => {
+  condition.value.kinds = ''
+  condition.value.compos = ''
+  condition.value.conmonth = ''
+  condition.value.conyear = ''
   store
     .dispatch("blogs/getAllBlogs", {
       type: "condition",
@@ -144,7 +109,7 @@ watch(condition.value, () => {
     (newcondition.conmonth + "").length == 1
       ? "0" + newcondition.conmonth
       : newcondition.conmonth;
-  newcondition.posttime = newcondition.conyear + "-" + newcondition.conmonth;
+  newcondition.posttime = newcondition.conyear + "-" + newcondition.conmonth + '-';
   newcondition.kinds == "" ? delete newcondition.kinds : "";
   newcondition.posttime == "-" ? delete newcondition.posttime : "";
   newcondition.compos == "" ? delete newcondition.compos : "";
@@ -180,9 +145,11 @@ ul {
   margin: 0 auto;
   width: 1200px;
   margin-top: 80px;
+
   main {
     min-height: calc(100vh - 80px);
   }
+
   .main-head {
     display: flex;
     font-size: 22px;
@@ -198,9 +165,10 @@ ul {
       .el-select {
         width: 200px;
       }
-      .reset_btn{
-        padding:4px 20px;
-        height:40px;
+
+      .reset_btn {
+        padding: 4px 20px;
+        height: 40px;
       }
     }
   }
