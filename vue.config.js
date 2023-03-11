@@ -32,15 +32,15 @@ module.exports = defineConfig({
     port: '8888',
     proxy: {
       '/works': {
-        target: 'http://101.43.158.79:3000',
+        target: process.env.VUE_BASE_URL,
         changeOrigin: true
       },
       '/blogs': {
-        target: 'http://101.43.158.79:3000',
+        target: process.env.VUE_BASE_URL,
         changeOrigin: true
       },
       '/login': {
-        target: 'http://101.43.158.79:3000',
+        target: process.env.VUE_BASE_URL,
         changeOrigin: true
       }
     }

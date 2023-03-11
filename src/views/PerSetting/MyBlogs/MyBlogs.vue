@@ -89,9 +89,9 @@ const handleDelete = async (index, row) => {
 }
 const handleView = (index, row) => {
     const { href } = router.resolve({
-        path: `/blogdetails/${row._id}`
+        path: `/blogdetails`
     });
-    window.open(href, '_blank');
+    window.open(`${href}/?id=${row._id}`, '_blank');
 }
 </script>
 

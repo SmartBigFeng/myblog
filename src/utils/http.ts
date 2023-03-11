@@ -3,7 +3,7 @@ import axios from 'axios'
 import store from '@/store'
 //基础设置
 const instance = axios.create({
-  baseURL: 'http://101.43.158.79:3000',
+  baseURL: "",
   timeout: 5000
 });
 //请求拦截器

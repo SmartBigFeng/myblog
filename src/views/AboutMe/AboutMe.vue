@@ -4,7 +4,7 @@
     <nav-head></nav-head>
     <div class="show">
       <div class="below swing_skew_1">
-        <img src="@/assets/aboutMe/me.jpg" />
+        <img src="@/assets/aboutMe/isme.png" />
       </div>
       <div class="above">
         <h4>Hi!</h4>

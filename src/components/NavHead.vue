@@ -1,7 +1,7 @@
 <template>
   <header class="bg-black">
     <nav class="nav-container">
-      <img class="logo-white" src="@/assets/Head/NavLogo.png" @click="router.push('/')" />
+      <img class="logo-white" src="@/assets/Head/NavLogo2.png" @click="router.push('/')" />?
       <el-menu class="router-list">
         <el-menu-item class="item-white" style="padding:0;">
           <span class="head_span" @click="router.push('/')">
