@@ -4,16 +4,12 @@
     <nav-head></nav-head>
     <div class="show">
       <div class="below swing_skew_1">
-        <img src="@/assets/aboutMe/isme.png" />
+        <img :src="formData.imgsrc" />
       </div>
       <div class="above">
-        <h4>Hi!</h4>
+        <h4>{{ formData.title }}</h4>
         <p>
-          我是程序员，我会写程序，我不会写bug。
-          我是程序员，我会写程序，我不会写bug。
-          我是程序员，我会写程序，我不会写bug。
-          我是程序员，我会写程序，我不会写bug。
-          我是程序员，我会写程序，我不会写bug。
+          {{ formData.description }}
         </p>
       </div>
       <el-icon class="ToBlogs" @click="scrollToBlogs">
@@ -35,11 +31,11 @@ import { defineComponent, onBeforeMount, ref, onMounted } from "vue";
 import UnitBlog from "@/components/unitBlog.vue";
 import NavHead from "@/components/NavHead.vue";
 import FooterCom from "@/components/FooterCom.vue";
-
+import persetApi from "@/api/persetApi"
+let formData = ref({})
 defineComponent({
   name: "AboutMe"
 });
-
 let allBlogs = ref([]);
 
 onBeforeMount(async () => {
@@ -51,8 +47,18 @@ onBeforeMount(async () => {
     if (i < 6) allBlogs.value.push(v);
   });
 });
+const getInfo = () => {
+    persetApi.getInfo().then(res => {
+        if (res.data.errcode == '0') {
+            formData.value=res.data.dataitem;
+            console.log(formData.value);
+        }
+    })
+}
 onMounted(() => {
   document.documentElement.scrollTop = 0;
+  getInfo()
+  
 });
 const scrollToBlogs = () => {
   const docEle = document.documentElement;
@@ -62,6 +68,7 @@ const scrollFooter = () => {
   const docEle = document.documentElement;
   docEle.scrollTop = docEle.clientHeight * 2 - 80;
 };
+
 </script>
 
 <style lang="scss" scoped>

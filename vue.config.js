@@ -42,6 +42,10 @@ module.exports = defineConfig({
       '/login': {
         target: process.env.VUE_BASE_URL,
         changeOrigin: true
+      },
+      '/persetting': {
+        target: process.env.VUE_BASE_URL,
+        changeOrigin: true
       }
     }
   },
