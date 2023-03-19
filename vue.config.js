@@ -46,6 +46,10 @@ module.exports = defineConfig({
       '/persetting': {
         target: process.env.VUE_BASE_URL,
         changeOrigin: true
+      },
+      '/remark': {
+        target: process.env.VUE_BASE_URL,
+        changeOrigin: true
       }
     }
   },

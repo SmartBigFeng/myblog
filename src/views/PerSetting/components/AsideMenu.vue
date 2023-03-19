@@ -13,6 +13,9 @@
         <el-menu-item index="/addblog" to="/addblog">
           <el-icon> <food /> </el-icon>发布Blog
         </el-menu-item>
+        <el-menu-item index="/auth" to="/auth">
+          <el-icon> <food /> </el-icon>评论审核
+        </el-menu-item>
       </el-menu>
     </el-aside>
 </template>

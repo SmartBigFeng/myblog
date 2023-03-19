@@ -63,6 +63,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/addblog',
         name: 'addblog',
         component: () => import('@/views/PerSetting/AddBlog/AddBlog.vue')
+      },
+      {
+        path: '/auth',
+        name: 'auth',
+        component: () => import('@/views/PerSetting/Auth/auth.vue')
       }
     ]
   }
