@@ -1,5 +1,5 @@
 <template>
-    <el-table :data="tableData">
+    <el-table :data="tableData" height="80%">
         <el-table-column prop="content" label="内容"></el-table-column>
         <el-table-column label="状态" width="100px">
             <template #default="scope">
