@@ -41,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/personal',
     name: 'personal',
-    redirect: '/opussetting',
+    redirect: '/mysetting',
     component: () => import('@/views/PerSetting/Index.vue'),
     children: [
       {

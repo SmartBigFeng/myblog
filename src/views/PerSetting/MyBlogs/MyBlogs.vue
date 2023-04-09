@@ -7,11 +7,11 @@
         <el-table-column prop="intro" label="介绍" show-overflow-tooltip />
         <el-table-column label="操作">
             <template #default="scope">
-                <el-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+                <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                 <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.$index, scope.row)">
                     <template #reference>
                         <el-button size="small" type="danger">
-                            Delete
+                            删除
                         </el-button>
                     </template>
                 </el-popconfirm>

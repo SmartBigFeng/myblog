@@ -1,12 +1,9 @@
 <template>
-  <main>
+  <main id="particles-js-css" ref="particlesJS">
     <nav-head></nav-head>
     <el-form class="demo-form-inline">
-      <el-form-item
-        label="请输入验证码"
-        style="width:300px"
-      >
-        <el-input v-model="nowcode" placeholder="请输入验证码" clearable  />
+      <el-form-item label="验证码" style="width:300px">
+        <el-input v-model="nowcode" placeholder="请输入验证码" clearable />
       </el-form-item>
       <el-form-item style="width:300px">
         <div class="btncontainer">
@@ -31,7 +28,9 @@ let nowcode = ref("");
 let route = useRoute();
 let router = useRouter();
 let loading = ref(false);
-onMounted(() => {});
+onMounted(() => {
+  particlesJS.load("particles-js-css", '/parti.json', () => { console.log('mounted'); });
+});
 let onSubmit = () => {
   let nowcookie = document.cookie;
   http.get("login/getCode").then(res => {
@@ -63,7 +62,7 @@ let toCheck = () => {
           type: "success",
           message: "登陆成功"
         });
-        router.push("/personal");
+        router.push("/mysetting");
       } else {
         ElMessage({
           type: "error",
@@ -79,28 +78,44 @@ main {
   width: 100vw;
   height: 100vh;
   margin: 0 auto;
-  background-image: url("@/assets/Login/back3.jpg");
+  // background-image: url("@/assets/Login/back3.jpg");
   background-size: 100% 100%;
 }
+
+#particles-js-css {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #333;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
 .demo-form-inline {
+  color: #ddd;
   box-sizing: border-box;
   position: absolute;
   right: calc(50% - 150px);
   top: calc(50% - 100px);
   border-radius: 5px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(193, 216, 230, 0.8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(93, 216, 230, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   padding: 20px 20px 0;
+
+}
+
+:deep(.el-form-item__label) {
+  color: #ddd;
 }
 
 .btncontainer {
   width: 300px;
   display: flex;
   justify-content: flex-end;
-}
-</style>
+}</style>

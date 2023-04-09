@@ -28,6 +28,7 @@
           </div>
           <div>
             <p style="margin: 16px 0;height:28px;"></p>
+            <el-button class="search_btn" type="primary" @click="search">搜索</el-button>
             <el-button class="reset_btn" @click="reset">重置</el-button>
           </div>
         </div>
@@ -89,21 +90,7 @@ onMounted(() => {
     });
   }
 });
-const reset = () => {
-  condition.value.kinds = ''
-  condition.value.compos = ''
-  condition.value.conmonth = ''
-  condition.value.conyear = ''
-  store
-    .dispatch("blogs/getAllBlogs", {
-      type: "condition",
-      condition: {},
-    })
-    .then((res) => {
-      allBlogs.value = res.slice(0, 9);
-    });
-}
-watch(condition.value, () => {
+const search = () => {
   let newcondition = JSON.parse(JSON.stringify(condition.value));
   newcondition.conmonth =
     (newcondition.conmonth + "").length == 1
@@ -123,7 +110,18 @@ watch(condition.value, () => {
     .then((res) => {
       allBlogs.value = res.slice(0, 9);
     });
-});
+}
+const reset = () => {
+  condition.value.kinds = ''
+  condition.value.compos = ''
+  condition.value.conmonth = ''
+  condition.value.conyear = ''
+  store
+    .dispatch("blogs/getAllBlogs", {})
+    .then((res) => {
+      allBlogs.value = res.slice(0, 9);
+    });
+}
 </script>
 
 <style lang="scss">
@@ -166,7 +164,7 @@ ul {
         width: 200px;
       }
 
-      .reset_btn {
+      .reset_btn,.search_btn {
         padding: 4px 20px;
         height: 40px;
       }

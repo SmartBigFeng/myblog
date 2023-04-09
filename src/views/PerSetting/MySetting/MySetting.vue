@@ -2,8 +2,8 @@
     <div v-loading="pageLoading">
         <el-form ref="formEL" :model="formData" class="demo-form-inline" :rules="rules">
             <el-form-item label="图片" prop="imgsrc">
-                <el-upload ref="uploadRef"  v-model:file-list="filelist" action="#" list-type="picture-card" :auto-upload="false" :limit="1"
-                    :on-change="handleUpload" :disabled="uploadDisabled">
+                <el-upload ref="uploadRef" v-model:file-list="filelist" action="#" list-type="picture-card"
+                    :auto-upload="false" :limit="1" :on-change="handleUpload" :disabled="uploadDisabled">
                     <el-icon>
                         <Plus />
                     </el-icon>
@@ -25,8 +25,10 @@
                     </template>
                 </el-upload>
 
-                <el-dialog v-model="dialogVisible">
-                    <img w-full :src="dialogImageUrl" alt="Preview Image" />
+                <el-dialog v-model="dialogVisible" width="55vh">
+                    <div class="img-container">
+                        <img style="width:100%;height:100%;" :src="dialogImageUrl" alt="Preview Image" />
+                    </div>
                 </el-dialog>
             </el-form-item>
             <el-form-item label="标题" prop="title">
@@ -45,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, computed ,onMounted} from 'vue'
+import { reactive, ref, computed, onMounted } from 'vue'
 import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
 import persetApi from "@/api/persetApi"
 import { UploadFile, ElMessage } from 'element-plus'
@@ -99,9 +101,9 @@ const onSubmit = () => {
 const getInfo = () => {
     persetApi.getInfo().then(res => {
         if (res.data.errcode == '0') {
-            formData.value=res.data.dataitem;
-            if(!filelist.value.length && !!formData.value.imgsrc){
-                filelist.value.push({url:formData.value.imgsrc})
+            formData.value = res.data.dataitem;
+            if (!filelist.value.length && !!formData.value.imgsrc) {
+                filelist.value.push({ url: formData.value.imgsrc })
             }
             // console.log(filelist.value)
         }
@@ -152,7 +154,7 @@ let uploadDisabled = computed(() => {
     return !!formData.value.imgsrc;
 })
 
-onMounted(()=>{
+onMounted(() => {
     getInfo()
 })
 </script>
@@ -187,5 +189,9 @@ onMounted(()=>{
 
 :deep(.el-upload-list--picture-card.is-disabled .el-upload.el-upload--picture-card) {
     display: none;
+}
+.img-container{
+    height:60vh;
+    width:50vh;
 }
 </style>

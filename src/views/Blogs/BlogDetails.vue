@@ -41,6 +41,7 @@ import emoji from "./emoji"
 import { UToast, CommentApi, ConfigApi, CommentSubmitParam } from 'undraw-ui'
 import remarkApi from "@/api/remarkApi"
 import moment from "moment";
+import { AxiosRequestConfig } from "axios";
 // 下载表情包资源emoji.zip https://gitee.com/undraw/undraw-ui/releases
 // static文件放在public下,引入emoji.ts文件可以移动到自定义位置
 interface remarkCommentApi extends CommentApi {
@@ -62,7 +63,7 @@ const activKey = () => {
   return String((new Date()).getTime())
 }
 //获取文件url
-function createObjectURL(blob: any) {
+function createObjectURL(blob: Blob) {
   if (window.URL) {
     return window.URL.createObjectURL(blob)
   } else if (window.webkitURL) {
@@ -79,7 +80,7 @@ const submit = ({ content, parentId, files, finish }: CommentSubmitParam) => {
   /**
    * 上传文件后端返回图片访问地址，格式以', '为分割; 如:  '/static/img/program.gif, /static/img/normal.webp'
    */
-  let contentImg = files.map((e: any) => createObjectURL(e)).join(', ')
+  let contentImg = files.map((e: File) => createObjectURL(e)).join(', ')
   let comment: remarkCommentApi = {
     blogId: `${route.query.id}`,
     id: String((temp_id += 1)),
@@ -100,23 +101,18 @@ const submit = ({ content, parentId, files, finish }: CommentSubmitParam) => {
     reply: null
   }
 
-  remarkApi.postRemark(comment).then((res) => {
-    if (res?.errcode == "0") {
-      console.log(compref.value);
+  remarkApi.postRemark(comment).then((res: AxiosRequestConfig): void => {
+    if (res.data.errcode == "0") {
       remarkApi.getRemark().then((inner) => {
         config.comments = inner.data.list;
       })
     }
     finish()
   })
-  setTimeout(() => {
-    
-    UToast({ message: '评论成功!', type: 'info' })
-  }, 200)
 }
 
 // 删除评论
-const remove = (id: number, finish: () => void) => {
+const remove = (id: number, finish: () => void): void => {
   setTimeout(() => {
     finish()
     alert(`删除成功: ${id}`)
@@ -124,7 +120,7 @@ const remove = (id: number, finish: () => void) => {
 }
 
 //举报用户
-const report = (id: number, finish: () => void) => {
+const report = (id: number, finish: () => void): void => {
   setTimeout(() => {
     finish()
     alert(`举报成功: ${id}`)
@@ -132,8 +128,7 @@ const report = (id: number, finish: () => void) => {
 }
 
 // 点赞按钮事件
-const like = (id: number, finish: () => void) => {
-  console.log(id)
+const like = (id: number, finish: () => void): void => {
   setTimeout(() => {
     finish()
   }, 200)
@@ -143,12 +138,12 @@ config.comments = []
 defineComponent({
   name: "BlogDetails"
 });
-let loading = ref(false)
-let data = ref("");
+let loading = ref<boolean>(false)
+let data = ref<string>("");
 let router = useRouter();
 let route = useRoute();
-let nowblog = ref({});
-const dataHandle = (data: string) => {
+let nowblog = ref<object>({});
+const dataHandle = (data: string): string => {
   // data.replace('p><p', `p class='passagep'><hr class='passagehr' /><p`).replace('code><p', `code><p class='passagep' /><hr class='passagehr' /><p`)
   let oridata = data;
   oridata = oridata.replace(/<h3/g, '<h3 style="padding:16px 0;"')
@@ -170,7 +165,7 @@ onMounted(() => {
       }
       loading.value = false;
     });
-  remarkApi.getRemark({blogId:route.query.id}).then((res) => {
+  remarkApi.getRemark({ blogId: route.query.id }).then((res) => {
     config.comments = res.data.list;
   })
 });

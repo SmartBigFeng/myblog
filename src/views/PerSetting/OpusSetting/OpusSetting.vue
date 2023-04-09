@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <!-- 添加项目 -->
     <div>
       <div class="opus-btn">
@@ -7,16 +7,10 @@
       </div>
     </div>
     <!-- 添加项目弹出窗口 -->
-    <el-dialog v-model="dialogVisible" title="添加/更新作品" width="60%" :destroy-on-close="true">
+    <el-dialog v-model="dialogVisible" title="添加/更新作品" width="60%" :destroy-on-close="true" top="25vh">
       <el-form ref="ruleFormRef" :model="ruleForm" label-width="120px" :rules="rules">
         <el-form-item label="类别" prop="title">
-          <el-select
-            v-model="ruleForm.title"
-            class="m-2"
-            placeholder="请选择分类"
-            size="large"
-            width="200px;"
-          >
+          <el-select v-model="ruleForm.title" class="m-2" placeholder="请选择分类" size="large" width="200px;">
             <el-option v-for="item in kinds.kinds" :value="item">{{ item }}</el-option>
           </el-select>
         </el-form-item>
@@ -24,19 +18,12 @@
           <el-input v-model="ruleForm.projname" class="m-2" placeholder="请选择分类" size="large"></el-input>
         </el-form-item>
         <el-form-item label="作品图" prop="file">
-          <el-upload
-            class="avatar-uploader"
-            :http-request="beforeUpload"
-            multiple
-            :show-file-list="false"
-          >
+          <el-upload class="avatar-uploader" :http-request="beforeUpload" multiple :show-file-list="false">
             <el-icon class="avatar-uploader-icon">
               <Plus />
             </el-icon>
           </el-upload>
-          <div
-            class="imgs"
-          ><img v-for="(item,index) in imageUrl" :src="item" class="avatar" alt="" :key="index" /></div>
+          <div class="imgs"><img v-for="(item, index) in imageUrl" :src="item" class="avatar" alt="" :key="index" /></div>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -46,76 +33,64 @@
         </span>
       </template>
     </el-dialog>
-    <!-- 数据回显 -->
-    <div class="demo-collapse">
-      <ul class="infinite-list" v-if="nowinfos.length">
-        <li v-for="item in nowinfos" :key="item._id">
-          <h4 class="nowkinds">{{ item.title }}</h4>
-          <el-table :data="item.infos" style="width: 100%">
-            <el-table-column prop="projname" label="项目名称" width="300" />
-            <el-table-column fixed="right" label="Operations" width="300">
-              <template #default="scope">
-                <el-popconfirm
-                  title="Are you sure to delete this?"
-                  @confirm="handleDelete(scope.$index, scope.row, item.title)"
-                >
-                  <template #reference>
-                    <el-button size="small" type="danger">Delete</el-button>
-                  </template>
-                </el-popconfirm>
-                <el-button
-                  size="small"
-                  type="primary"
-                  :icon="Search"
-                  @click="handleView(scope.$index, scope.row, item._id)"
-                >浏览</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </li>
-      </ul>
-      <template v-else>
-        <el-empty description="Nothing" />
-      </template>
-    </div>
-    <!-- 懒加载预览项目图片 -->
-    <div class="demo-image__lazy">
-      <template v-if="nowitem.length">
-        <div class="imgcontainer" v-for="(url, index) in nowitem" :key="index">
-          <div class="itembtns">
-            <el-button :icon="Refresh" @click="showAlterItem(url, nowitem_id, index)">
-              <span>Alter</span>
-            </el-button>
-            <el-popconfirm
-              title="Are you sure to delete this?"
-              @confirm="handelDeleteItem(url, nowitem_id)"
-            >
-              <template #reference>
-                <el-button type="danger" :icon="Delete">
-                  <span>Delete</span>
-                </el-button>
-              </template>
-            </el-popconfirm>
+    <div class="proj-main">
+      <!-- 数据回显 -->
+      <div class="demo-collapse">
+        <ul class="infinite-list" v-if="nowinfos.length">
+          <li v-for="item in nowinfos" :key="item._id">
+            <h4 class="nowkinds">{{ item.title }}</h4>
+            <el-table :data="item.infos" style="width: 100%">
+              <el-table-column prop="projname" label="项目名称" width="300" />
+              <el-table-column fixed="right" label="Operations" width="300">
+                <template #default="scope">
+                  <el-popconfirm title="Are you sure to delete this?"
+                    @confirm="handleDelete(scope.$index, scope.row, item.title)">
+                    <template #reference>
+                      <el-button size="small" type="danger">删除</el-button>
+                    </template>
+                  </el-popconfirm>
+                  <el-button size="small" type="primary" :icon="Search"
+                    @click="handleView(scope.$index, scope.row, item._id)">浏览</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </li>
+        </ul>
+        <template v-else>
+          <el-empty description="Nothing" />
+        </template>
+      </div>
+      <!-- 懒加载预览项目图片 -->
+      <div class="demo-image__lazy">
+        <template v-if="nowitem.length">
+          <div class="imgcontainer" v-for="(url, index) in nowitem" :key="index">
+            <div class="itembtns">
+              <el-button :icon="Refresh" @click="showAlterItem(url, nowitem_id, index)">
+                <span>替换</span>
+              </el-button>
+              <el-popconfirm title="Are you sure to delete this?" @confirm="handelDeleteItem(url, nowitem_id)">
+                <template #reference>
+                  <el-button type="danger" :icon="Delete">
+                    <span>删除</span>
+                  </el-button>
+                </template>
+              </el-popconfirm>
+            </div>
+            <el-image :key="url" :src="url" lazy />
           </div>
-          <el-image :key="url" :src="url" lazy />
-        </div>
-      </template>
-      <template v-else>
-        <el-empty description="No pictures are being displayed" />
-      </template>
+        </template>
+        <template v-else>
+          <el-empty description="No pictures are being displayed" />
+        </template>
+      </div>
     </div>
     <!-- 图片替换部分 -->
-    <el-dialog v-model="alterdialogVisible" title="单图片替换" width="800px" :before-close="handleClose">
+    <el-dialog v-model="alterdialogVisible" title="单图片替换" width="800px" :before-close="handleClose" top="25vh">
       <div class="altercontainer">
         <div>
           <span class="altertitle">新上传的图片</span>
-          <el-upload
-            class="avatar-uploader"
-            :http-request="beforeAlterUpload"
-            multiple
-            :show-file-list="false"
-            v-if="!newfileurl"
-          >
+          <el-upload class="avatar-uploader" :http-request="beforeAlterUpload" multiple :show-file-list="false"
+            v-if="!newfileurl">
             <el-icon class="avatar-uploader-icon">
               <Plus />
             </el-icon>
@@ -130,8 +105,8 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="[alterdialogVisible = false, newfileurl = '']">Cancel</el-button>
-          <el-button type="primary" @click="handelAlterItem">Confirm</el-button>
+          <el-button @click="[alterdialogVisible = false, newfileurl = '']">取消</el-button>
+          <el-button type="primary" @click="handelAlterItem">替换</el-button>
         </span>
       </template>
     </el-dialog>
@@ -327,6 +302,10 @@ let handelAlterItem = async () => {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  width: 100%;
+  height: 100%;
+}
 .opus-btn {
   padding: 20px 50px;
   display: flex;
@@ -368,9 +347,16 @@ div.imgs {
   vertical-align: top;
 }
 
+.proj-main{
+  display: flex;
+  height:calc(100% - 80px);
+  width:100%;
+  justify-content: space-between;
+}
 // 所有项目展示
 .demo-collapse {
-  width: 800px;
+  min-width: 800px;
+  max-width: 1000px;
 }
 
 .btndelall {
@@ -420,7 +406,7 @@ div.imgs {
   color: var(--el-color-primary);
 }
 
-.infinite-list .infinite-list-item + .list-item {
+.infinite-list .infinite-list-item+.list-item {
   margin-top: 10px;
 }
 
@@ -430,13 +416,9 @@ div.imgs {
 }
 
 .demo-image__lazy {
-  height: 338px;
-  width: 600px;
-  overflow-y: auto;
-  position: absolute;
-  top: calc(50% - 260px);
-  right: 100px;
-  z-index: 5;
+  height: 60vh;
+  width: 100%;
+   overflow-y: auto;
   border: 1px solid black;
   border-radius: 5px;
 
@@ -444,7 +426,7 @@ div.imgs {
     display: none;
   }
 
-  & > .imgcontainer {
+  &>.imgcontainer {
     margin-bottom: 5px;
     position: relative;
 
@@ -458,7 +440,7 @@ div.imgs {
       display: flex;
       flex-direction: column;
 
-      & > .el-button {
+      &>.el-button {
         height: 30px;
         width: 100%;
         margin: 5px;
@@ -491,11 +473,11 @@ div.imgs {
   position: relative;
   width: 25%;
 
-  & > img {
+  &>img {
     width: 100%;
   }
 
-  & > .el-button {
+  &>.el-button {
     position: absolute;
     right: 10px;
     top: 10px;
@@ -507,10 +489,10 @@ div.imgs {
   width: 100%;
   display: flex;
 
-  & > div {
+  &>div {
     flex: 1;
 
-    & > span {
+    &>span {
       display: block;
       padding: 10px;
       font-size: 20px;
