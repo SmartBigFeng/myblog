@@ -1,9 +1,9 @@
 <template>
   <div class="common-layout">
     <nav-head></nav-head>
-    <el-container>
+    <el-container class="setting-main">
       <AsideMenu></AsideMenu>
-      <el-main>
+      <el-main style="height:700px;">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -31,9 +31,13 @@ $h: getHeight(1px);
   width: 100%;
   box-sizing: border-box;
   padding-top: 80px;
-  height: calc(100vh - 80px);
+  height: calc(100% - 80px);
+  overflow-y: scroll;
 }
-
+::v-deep(.setting-main.el-main){
+  height:calc(100% - 80px);
+  overflow-y: scroll;
+}
 .el-header {
   background: #b3c0d1;
   display: flex;

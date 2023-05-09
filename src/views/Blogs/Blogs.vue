@@ -96,9 +96,9 @@ const search = () => {
     (newcondition.conmonth + "").length == 1
       ? "0" + newcondition.conmonth
       : newcondition.conmonth;
-  newcondition.posttime = newcondition.conyear + "-" + newcondition.conmonth + '-';
+      let {conyear,conmonth}=newcondition;
+      newcondition.posttime=`${conyear?conyear+'-':''}${!conyear && conmonth?'-'+conmonth+'-':''}${conyear&&conmonth?conmonth+'-':''}`
   newcondition.kinds == "" ? delete newcondition.kinds : "";
-  newcondition.posttime == "-" ? delete newcondition.posttime : "";
   newcondition.compos == "" ? delete newcondition.compos : "";
   delete newcondition.conyear;
   delete newcondition.conmonth;

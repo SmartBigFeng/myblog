@@ -19,7 +19,7 @@
       </li>
     </ul>
     <div class="dialogcon" v-if="showTarget">
-      <el-dialog v-model="showTarget" title="添加作品" width="60%" :destroy-on-close="true">
+      <el-dialog v-model="showTarget" title="添加文章" width="60%" :destroy-on-close="true">
         <el-form ref="ruleFormRef" :model="ruleForm" label-width="90px" :rules="rules">
           <el-form-item label="类别" prop="kind">
             <el-select v-model="ruleForm.kind" class="m-2" placeholder="请选择分类" size="large" width="200px;">

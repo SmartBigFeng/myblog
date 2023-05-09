@@ -42,6 +42,7 @@ import { UToast, CommentApi, ConfigApi, CommentSubmitParam } from 'undraw-ui'
 import remarkApi from "@/api/remarkApi"
 import moment from "moment";
 import { AxiosRequestConfig } from "axios";
+import { ElMessage } from "element-plus";
 // 下载表情包资源emoji.zip https://gitee.com/undraw/undraw-ui/releases
 // static文件放在public下,引入emoji.ts文件可以移动到自定义位置
 interface remarkCommentApi extends CommentApi {
@@ -103,7 +104,7 @@ const submit = ({ content, parentId, files, finish }: CommentSubmitParam) => {
 
   remarkApi.postRemark(comment).then((res: AxiosRequestConfig): void => {
     if (res.data.errcode == "0") {
-      remarkApi.getRemark().then((inner) => {
+      remarkApi.getRemark({ blogId: route.query.id }).then((inner) => {
         config.comments = inner.data.list;
       })
     }
