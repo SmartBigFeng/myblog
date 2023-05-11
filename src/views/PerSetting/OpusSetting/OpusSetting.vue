@@ -15,7 +15,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="项目名称" prop="projname">
-          <el-input v-model="ruleForm.projname" class="m-2" placeholder="请选择分类" size="large"></el-input>
+          <el-input v-model="ruleForm.projname" class="m-2" placeholder="请填写项目名称" size="large"></el-input>
         </el-form-item>
         <el-form-item label="作品图" prop="file">
           <el-upload class="avatar-uploader" :http-request="beforeUpload" multiple :show-file-list="false">
